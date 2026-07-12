@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Website</title>
+    <style>
+        /* Keyframe Animations */
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes fadeInSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes darkModeToggle {
+            0% {
+                transform: rotate(0deg) scale(1);
+            }
+            50% {
+                transform: rotate(180deg) scale(1.1);
+            }
+            100% {
+                transform: rotate(360deg) scale(1);
+            }
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        :root {
+            --bg-color: #f8f9fa;
+            --text-color: #2c3e50;
+            --text-light: #555;
+            --nav-bg: #ffffff;
+            --nav-text: #2c3e50;
+            --section-bg: #ffffff;
+            --accent: #6c757d;
+            --accent-light: #e9ecef;
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        body.dark-mode {
+            --bg-color: #1a1a1a;
+            --text-color: #e8e8e8;
+            --text-light: #b8b8b8;
+            --nav-bg: #252525;
+            --nav-text: #e8e8e8;
+            --section-bg: #2d2d2d;
+            --accent: #888888;
+            --accent-light: #3a3a3a;
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: background-color 0.5s ease, color 0.5s ease;
+            animation: fadeInScale 0.6s ease;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+            color: var(--text-color);
+            padding: 3rem 1rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            animation: slideDown 0.7s ease;
+        }
+        
+        body.dark-mode header {
+            background: linear-gradient(135deg, #2d2d2d 0%, #1f1f1f 100%);
+        }
+        
+        header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            color: var(--accent);
+        }
+        
+        nav {
+            background-color: var(--nav-bg);
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            flex-wrap: wrap;
+            gap: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            animation: slideDown 0.8s ease;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            flex: 1;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        nav a {
+            color: var(--nav-text);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        nav a:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+        
+        nav a:hover:after {
+            width: 100%;
+        }
+        
+        nav a:active {
+            animation: fadeInScale 0.3s ease;
+        }
+        
+        .theme-toggle {
+            background: var(--accent-light);
+            border: none;
+            color: var(--nav-text);
+            cursor: pointer;
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .theme-toggle:hover {
+            background-color: var(--accent);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .theme-toggle.animating {
+            animation: darkModeToggle 0.5s ease;
+        }
+        
+        main {
+            max-width: 1100px;
+            margin: 3rem auto;
+            padding: 0 1rem;
+        }
+        
+        section {
+            background: var(--section-bg);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            animation: fadeInSlideUp 0.6s ease backwards;
+        }
+        
+        section:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+        
+        section:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        section:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+        
+        section:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+        
+        section:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+        
+        body.dark-mode section:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+        
+        section h2 {
+            color: var(--text-color);
+            margin-bottom: 1.2rem;
+            font-size: 1.8rem;
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.8rem;
+            font-weight: 700;
+        }
+        
+        section p {
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+        
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .feature-item {
+            background: var(--accent-light);
+            padding: 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-item:hover {
+            transform: translateY(-2px);
+            background: var(--accent);
+        }
+        
+        body.dark-mode .feature-item:hover {
+            color: white;
+        }
+        
+        .feature-item p {
+            margin: 0;
+        }
+        
+        ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        li {
+            margin-bottom: 0.8rem;
+            color: var(--text-light);
+        }
+        
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .contact-item {
+            padding: 1.2rem;
+            background: var(--accent-light);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-item:hover {
+            background: var(--accent);
+        }
+        
+        body.dark-mode .contact-item:hover {
+            color: white;
+        }
+        
+        .contact-item p {
+            margin: 0;
+            font-weight: 500;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, var(--accent-light) 0%, rgba(108, 117, 125, 0.1) 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+            border-left: 4px solid var(--accent);
+        }
+        
+        body.dark-mode .highlight-box {
+            background: linear-gradient(135deg, var(--accent-light) 0%, rgba(136, 136, 136, 0.2) 100%);
+        }
+        
+        .highlight-box h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+        }
+        
+        .benefit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .benefit-card {
+            background: var(--section-bg);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        body.dark-mode .benefit-card:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .benefit-icon {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 1rem;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .benefit-card p {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin: 0;
+        }
+        
+        .benefit-card strong {
+            color: var(--text-color);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        footer {
+            background-color: #ffffff;
+            color: var(--text-color);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid var(--accent-light);
+        }
+        
+        body.dark-mode footer {
+            background-color: #252525;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            header p {
+                font-size: 0.95rem;
+            }
+            
+            nav {
+                justify-content: center;
+                padding: 1rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+                order: 3;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .theme-toggle {
+                order: 2;
+            }
+            
+            main {
+                margin: 1.5rem auto;
+            }
+            
+            section {
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            section h2 {
+                font-size: 1.4rem;
+            }
+            
+            .feature-list {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .contact-info {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            header {
+                padding: 2rem 1rem;
+            }
+            
+            header h1 {
+                font-size: 1.6rem;
+            }
+            
+            nav {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .nav-links {
+                gap: 0.8rem;
+                font-size: 0.9rem;
+            }
+            
+            nav a {
+                font-size: 0.85rem;
+            }
+            
+            section {
+                padding: 1.2rem;
+                margin-bottom: 1rem;
+            }
+            
+            section h2 {
+                font-size: 1.2rem;
+            }
+            
+            section p {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🚀 Solusi Website Modern Anda</h1>
+        <p>Dapatkan website profesional yang responsif, cepat, dan menarik untuk bisnis Anda</p>
+    </header>
+    
+    
+    <nav>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#features">Features</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <button class="theme-toggle" id="themeBtn">🌙 Dark</button>
+    </nav>
+    
+    <main>
+        <section id="home">
+            <h2>✨ Transformasi Digital Bisnis Anda</h2>
+            <p>Kami menawarkan solusi website berkualitas tinggi yang dirancang khusus untuk membantu bisnis Anda berkembang di era digital. Setiap website kami dibangun dengan teknologi terkini dan design yang memukau.</p>
+            <div class="highlight-box">
+                <h3>Mengapa Memilih Kami?</h3>
+                <div class="benefit-grid">
+                    <div class="benefit-card">
+                        <span class="benefit-icon">💎</span>
+                        <p><strong>Desain Premium</strong><br>Tampilan modern dan profesional yang meningkatkan kepercayaan pelanggan</p>
+                    </div>
+                    <div class="benefit-card">
+                        <span class="benefit-icon">⚡</span>
+                        <p><strong>Performa Cepat</strong><br>Loading super cepat yang meningkatkan pengalaman pengguna</p>
+                    </div>
+                    <div class="benefit-card">
+                        <span class="benefit-icon">📱</span>
+                        <p><strong>Mobile Ready</strong><br>Sempurna di semua perangkat - desktop, tablet, dan smartphone</p>
+                    </div>
+                    <div class="benefit-card">
+                        <span class="benefit-icon">🔒</span>
+                        <p><strong>Aman & Terpercaya</strong><br>Website Anda dilindungi dengan standar keamanan internasional</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="about">
+            <h2>📋 Tentang Kami</h2>
+            <p>Kami menyediakan solusi website yang sederhana namun powerful dengan design yang modern dan user-friendly interface.</p>
+            <p>Setiap detail dirancang dengan cermat untuk memberikan pengalaman terbaik bagi pengunjung website Anda.</p>
+        </section>
+        
+        <section id="features">
+            <h2>✨ Fitur Unggulan</h2>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <p><strong>📱 Responsif</strong><br>Menyesuaikan sempurna di semua ukuran layar</p>
+                </div>
+                <div class="feature-item">
+                    <p><strong>🎨 Modern Design</strong><br>Desain contemporary dengan warna yang elegan</p>
+                </div>
+                <div class="feature-item">
+                    <p><strong>🌙 Dark Mode</strong><br>Mudah untuk mata dengan mode malam</p>
+                </div>
+                <div class="feature-item">
+                    <p><strong>⚡ Cepat</strong><br>Loading yang super cepat dan smooth</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="contact">
+            <h2>📞 Hubungi Kami untuk order website anda</h2>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <p>📧 <strong>Email</strong></p>
+                    <p>xx49318@gmail.com</p>
+                </div>
+                <div class="contact-item">
+                    <p>📱 <strong>Telepon</strong></p>
+                    <p>+62 815 2822 6217</p>
+                </div>
+                <div class="contact-item">
+                    <p>📍 <strong>Lokasi</strong></p>
+                    <p>palangkaraya</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2026 a Simple Website by czzz. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        const themeBtn = document.getElementById('themeBtn');
+        const body = document.body;
+        
+        // Check if dark mode was previously enabled
+        const isDarkMode = localStorage.getItem('darkMode') === 'true';
+        if (isDarkMode) {
+            body.classList.add('dark-mode');
+            themeBtn.textContent = '☀️ Light';
+        }
+        
+        // Toggle dark mode with animation
+        themeBtn.addEventListener('click', () => {
+            // Add animation class
+            themeBtn.classList.add('animating');
+            
+            // Toggle dark mode after animation starts
+            setTimeout(() => {
+                body.classList.toggle('dark-mode');
+                const isNowDark = body.classList.contains('dark-mode');
+                localStorage.setItem('darkMode', isNowDark);
+                themeBtn.textContent = isNowDark ? '☀️ Light' : '🌙 Dark';
+            }, 250);
+            
+            // Remove animation class after it completes
+            setTimeout(() => {
+                themeBtn.classList.remove('animating');
+            }, 500);
+        });
+        
+        // Smooth scroll animation for navigation links
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    
+                    // Add highlight animation
+                    targetSection.style.animation = 'none';
+                    setTimeout(() => {
+                        targetSection.style.animation = 'fadeInScale 0.4s ease';
+                    }, 10);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+</html>
